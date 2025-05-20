@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Phoenix Aesthetic</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Merriweather:wght@300;400;700&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        /* Variables */
+        :root {
+            --primary-brown: #8b5e42;
+            --dark-brown: #5B4635;
+            --light-brown: #6D4A33;
+            --cream: #F8F4EE;
+            --gradient-bg: linear-gradient(145deg, #F5E6D3, #E0D0B7);
+        }
+
+        /* Header */
+        .header {
+            width: 100%;
+            background: var(--primary-brown);
+            padding: 15px 0;
+            position: fixed;  
+            z-index: 1000;          
+        }
+
+        .nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1300px;
+            margin: auto;
+            padding: 0 20px;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: white;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .nav ul {
+            list-style: none;
+            display: flex;
+            gap: 20px;
+        }
+
+        .nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-size: 18px;
+            font-weight: 600;
+            padding: 10px 15px;
+            border-radius: 25px;
+            transition: all 0.3s ease;
+        }
+
+        .nav ul li a:hover {
+            background: rgba(255,255,255,0.2);
+            transform: scale(1.05);
+        }
+
+        /* Common Section Styles */
+        .section {
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            position: relative;
+            padding: 80px 0;
+        }
+
+        /* Home Section */
+        .home {
+            background-image: url('11.jpg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            text-align: center;
+        }
+
+        .home h1 {
+            font-size: 700%;
+            font-weight: bold;
+            text-shadow: 3px 3px 6px rgba(0,0,0,0.5);
+        }
+
+        .subtitle {
+            background: rgba(139, 94, 66, 0.8);
+            padding: 15px 30px;
+            border-radius: 30px;
+            font-size: 18px;
+            font-weight: 600;
+            margin-top: 20px;
+            display: inline-block;
+            letter-spacing: 1px;
+        }
+
+        /* About Section */
+        .about {
+            background-image: url('2222.jpg');
+            background-size: cover;
+            background-position: center;
+            justify-content: flex-start;
+            padding: 80px;
+        }
+
+        .content-box {
+            background: rgba(139, 94, 66, 0.8);
+            color: white;
+            padding: 40px;
+            max-width: 500px;
+            border-radius: 8px;
+            text-align: left;
+        }
+
+        .content-box h1 {
+            font-size: 28px;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+
+        .content-box p {
+            font-size: 16px;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+
+        /* Button Styles */
+        .button, .chat-button, .chats-button {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 12px 24px;
+            text-decoration: none;
+            border-radius: 30px;
+            font-weight: bold;
+            text-align: center;
+            border: none;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.4s ease;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .button {
+            background: linear-gradient(135deg, #ffffff, #f0eae6);
+            color: var(--dark-brown);
+        }
+
+        .chat-button, .chats-button {
+            background: linear-gradient(135deg, var(--primary-brown), var(--light-brown));
+            color: white;
+            width: 200px;
+            padding: 15px 30px;
+            font-size: 18px;
+        }
+
+        .button:hover, .chat-button:hover, .chats-button:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+        }
+
+        .button:hover {
+            background: linear-gradient(135deg, #f0eae6, #ffffff);
+        }
+
+        .chat-button:hover, .chats-button:hover {
+            background: linear-gradient(135deg, var(--light-brown), var(--primary-brown));
+        }
+
+        /* Split Sections (Fashion & Skincare) */
+        .fashion-bot, .skincare-bot {
+            display: flex;
+            align-items: center;
+            width: 100%;
+            height: 100vh;
+            background: var(--gradient-bg);
+            gap: 20px;
+        }
+
+        .image-section, .images-section {
+            width: 50vw;
+            height: 100vh;
+            background-size: cover;
+            background-position: center;
+        }
+
+        .image-section {
+            background-image: url('3.jpg');
+        }
+
+        .images-section {
+            background-image: url('22.jpg');
+        }
+
+        .text-section, .texts-section {
+            width: 50vw;
+            padding: 50px;
+            color: var(--dark-brown);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            text-align: left;
+        }
+
+        .text-section h1, .texts-section h1 {
+            font-size: 36px;
+            font-weight: bold;
+            margin-bottom: 15px;
+            letter-spacing: 1px;
+        }
+
+        .text-section p, .texts-section p {
+            font-size: 16px;
+            line-height: 1.8;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* Type Sections (Body & Face) */
+        .Type, .Types {
+            background-image: url('11.jpg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            padding: 40px;
+            text-align: center;
+        }
+
+        .Type h1, .Types h1 {
+            font-size: 36px;
+            margin-bottom: 40px;
+            color: white;
+            background-color: rgba(139, 94, 66, 0.8);
+            padding: 10px 20px;
+            border-radius: 30px;
+            display: inline;
+        }
+
+        .container, .containers {
+            display: grid;
+            gap: 20px;
+            max-width: 100%;
+            margin: auto;
+            padding: 40px 20px 0;
+        }
+
+        .container {
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        }
+
+        .containers {
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+        }
+
+        .body-type, .body-types {
+            background-color: var(--cream);
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: left;
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .body-type:hover, .body-types:hover {
+            transform: scale(1.05);
+        }
+
+        .body-type img {
+            width: 100%;
+            height: auto;
+            border-radius: 5px;
+        }
+
+        .body-types img {
+            width: 35%;
+            height: auto;
+            border-radius: 5px;
+        }
+
+        .Type h2, .Types h2 {
+            font-size: 20px;
+            margin: 15px 0;
+            color: var(--dark-brown);
+            text-align: center;
+        }
+
+        .Type p, .Types p {
+            font-size: 13px;
+            padding: 0 10px;
+            line-height: 1.6;
+        }
+
+        /* Footer */
+        .footer {
+            width: 100%;
+            background: linear-gradient(135deg, rgba(139, 94, 66, 0.9), rgba(139, 94, 66, 0.7));
+            color: white;
+            text-align: center;
+            padding: 20px 0;
+        }
+
+        .footer p {
+            font-size: 14px;
+            letter-spacing: 1px;
+        }
+
+        .social-icons {
+            margin-top: 10px;
+        }
+
+        .social-icons a {
+            color: white;
+            margin: 0 10px;
+            font-size: 20px;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .social-icons a:hover {
+            color: var(--cream);
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="nav">
+            <div class="logo">Phoenix Aesthetic</div>
+            <ul>
+                <li><a href="#home">Home</a></li>
+                <li><a href="#about">About Us</a></li>
+                <li><a href="#fashion">Fashion</a></li>
+                <li><a href="#skincare">SkinCare</a></li>
+                <li><a href="index.html">Shop Here</a></li>
+            </ul>
+        </div>
+    </header>
+
+    <!-- Home Section -->
+    <div id="home" class="section home">
+        <div>
+            <h1>Phoenix Aesthetic</h1>
+            <div class="subtitle">Get Personalized Recommendations Tailored To Your Taste</div>
+        </div>
+    </div>
+
+    <!-- About Section -->
+    <div id="about" class="section about">
+        <div class="content-box">
+            <h1>All About Phoenix Aesthetic</h1>
+            <p>Welcome to Phoenix Aesthetic, your personal guide to style, skincare, and beauty. We believe that self-expression starts with feeling confident in your own skin. That's why we offer personalized recommendations tailored to your unique preferences, skin type, and fashion sense.</p>
+            <p>Our platform combines expert insights with smart technology to curate the perfect clothing, skincare, and cosmetic choices for you. Whether you're looking to refresh your wardrobe, find the ideal skincare routine, or discover makeup that enhances your natural beauty, Phoenix Aesthetic is here to help.</p>
+            <p>Join us on a journey of self-care and style, where every recommendation is designed to make you feel empowered, radiant, and uniquely you.</p>
+            <a class="button" href="about.html">Contact Us</a>
+        </div>
+    </div>
+
+    <!--Body Type Section-->
+    <div class="Type">
+        <h1>Style According to Your Body Structure</h1>
+        <div class="container">
+            <!-- Hourglass (Female) -->
+            <div class="body-type">
+                <img src="hourglass.webp" alt="Hourglass Body Shape">
+                <h2>Hourglass (Female)</h2>
+                <p><strong>Balanced proportions, defined waist.</strong></p>
+                <p>✅ Wrap dresses to enhance curves.<br>
+                   ✅ High-waisted jeans to highlight the waist.<br>
+                   ✅ Peplum tops for balance.<br>
+                   ✅ Fitted blazers to define silhouette.</p>
+            </div>
+
+            <!-- Pear (Female) -->
+            <div class="body-type">
+                <img src="pear.webp" alt="Pear Body Shape">
+                <h2>Pear (Female)</h2>
+                <p><strong>Wider hips, smaller upper body.</strong></p>
+                <p>✅ A-line skirts to balance proportions.<br>
+                   ✅ Off-shoulder tops to broaden shoulders.<br>
+                   ✅ Dark-colored bottoms for slimming effect.<br>
+                   ✅ Statement tops to draw attention upward.</p>
+            </div>
+
+            <!-- Apple (Female) -->
+            <div class="body-type">
+                <img src="apple.png" alt="Apple Body Shape">
+                <h2>Apple (Female)</h2>
+                <p><strong>Weight around midsection, slimmer legs.</strong></p>
+                <p>✅ Empire waist dresses for elongation.<br>
+                   ✅ V-neck tops to create length.<br>
+                   ✅ Straight-leg pants for a balanced look.<br>
+                   ✅ Flowy tops to avoid clinginess.</p>
+            </div>
+
+            <!-- Rectangle (Female) -->
+            <div class="body-type">
+                <img src="rectangle.jpg" alt="Rectangle Body Shape">
+                <h2>Rectangle (Female)</h2>
+                <p><strong>Equal bust, waist, and hip measurements.</strong></p>
+                <p>✅ Belts to create waist definition.<br>
+                   ✅ Layered outfits for depth.<br>
+                   ✅ Ruffled tops to add volume.<br>
+                   ✅ Flared skirts to create curves.</p>
+            </div>
+
+            <!-- Inverted Triangle (Female) -->
+            <div class="body-type">
+                <img src="inverted triangle.jpg" alt="Inverted Triangle Body Shape">
+                <h2>Inverted Triangle (Female)</h2>
+                <p><strong>Broad shoulders, narrower hips.</strong></p>
+                <p>✅ A-line skirts to add volume to hips.<br>
+                   ✅ V-neck tops to soften broad shoulders.<br>
+                   ✅ Bootcut pants for balance.<br>
+                   ✅ Simple, fitted tops with minimal details.</p>
+            </div>
+
+            <!-- Male Body Types -->
+            <div class="body-type">
+                <img src="male_triangle.jpg" alt="Triangle Body Shape">
+                <h2>Triangle (Male)</h2>
+                <p><strong>Wider hips, narrow upper body.</strong></p>
+                <p>✅ Structured blazers to add shoulder width.<br>
+                   ✅ Dark trousers for a slimming effect.<br>
+                   ✅ Vertical stripes for elongation.<br>
+                   ✅ Fitted shirts to define the waist.</p>
+            </div>
+
+            <div class="body-type">
+                <img src="male_inverted_triangle.jpg" alt="Inverted Triangle Body Shape">
+                <h2>Inverted Triangle (Male)</h2>
+                <p><strong>Broad shoulders, narrow hips.</strong></p>
+                <p>✅ Slim-fit trousers to balance proportions.<br>
+                   ✅ Crew-neck shirts to soften upper body.<br>
+                   ✅ Straight-cut jackets for symmetry.<br>
+                   ✅ Avoid overly tight shirts.</p>
+            </div>
+
+            <div class="body-type">
+                <img src="male_rectangle.jpg" alt="Rectangle Body Shape">
+                <h2>Rectangle (Male)</h2>
+                <p><strong>Equal width shoulders, waist, and hips.</strong></p>
+                <p>✅ Layered outfits for added depth.<br>
+                   ✅ Blazers with structured shoulders.<br>
+                   ✅ Patterns and textures for a dynamic look.<br>
+                   ✅ Avoid baggy clothing.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Fashion Bot Section -->
+    <div id="fashion" class="fashion-bot">
+        <div class="image-section"></div>
+        <div class="text-section">
+            <h1>Chat with our Fashion Bot</h1>
+            <p>Receive personalized clothing recommendations and style your outfit effortlessly. Achieve the look you desire with ease.</p>
+            <a class="chat-button" href="chatbot.html">Chat Here</a>
+        </div>
+    </div>
+
+    <!-- Face Structure Section -->
+    <div class="Types">
+        <h1>Find Your Face Shape & Perfect Makeup Tips</h1>
+        <div class="containers">
+            <!-- Oval Face -->
+            <div class="body-types">
+                <img src="oval.jpg" alt="Oval Face">
+                <h2>Oval Face</h2>
+                <p><strong>Balanced proportions with slightly wider cheekbones.</strong></p>
+                <p>✅ Contour lightly to define features.<br>
+                   ✅ Highlight cheekbones and brow bone.<br>
+                   ✅ Try soft, curved eyebrows for a natural look.</p>
+            </div>
+
+            <!-- Round Face -->
+            <div class="body-types">
+                <img src="round face.jpg" alt="Round Face">
+                <h2>Round Face</h2>
+                <p><strong>Equal width and height, soft curves.</strong></p>
+                <p>✅ Contour the sides to create dimension.<br>
+                   ✅ Apply blush slightly upwards for an elongated effect.<br>
+                   ✅ Go for high-arched eyebrows to add structure.</p>
+            </div>
+
+            <!-- Square Face -->
+            <div class="body-types">
+                <img src="square face.jpg" alt="Square Face">
+                <h2>Square Face</h2>
+                <p><strong>Strong jawline and broad forehead.</strong></p>
+                <p>✅ Contour jawline to soften angles.<br>
+                   ✅ Use round or soft eyeshadow blending.<br>
+                   ✅ Opt for curved, slightly arched eyebrows.</p>
+            </div>
+
+            <!-- Heart Face -->
+            <div class="body-types">
+                <img src="heart face.jpg" alt="Heart Face">
+                <h2>Heart Face</h2>
+                <p><strong>Wider forehead and pointed chin.</strong></p>
+                <p>✅ Focus contour on forehead and chin.<br>
+                   ✅ Highlight the center of the face for balance.<br>
+                   ✅ Soft, rounded eyebrows work best.</p>
+            </div>
+
+            <!-- Diamond Face -->
+            <div class="body-types">
+                <img src="diamond face.jpg" alt="Diamond Face">
+                <h2>Diamond Face</h2>
+                <p><strong>Narrow forehead and jaw with prominent cheekbones.</strong></p>
+                <p>✅ Highlight cheekbones for a glowing effect.<br>
+                   ✅ Contour the forehead and jaw to soften edges.<br>
+                   ✅ Try a curved, well-defined eyebrow shape.</p>
+            </div>
+
+            <!-- Oblong Face -->
+            <div class="body-types">
+                <img src="rectangle face.jpg" alt="Oblong Face">
+                <h2>Oblong Face</h2>
+                <p><strong>Elongated shape with balanced proportions.</strong></p>
+                <p>✅ Apply blush on the apples of cheeks to add width.<br>
+                   ✅ Avoid excessive contouring to keep the face balanced.<br>
+                   ✅ Straight or softly curved eyebrows work best.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- SkinCare Bot Section -->
+    <div id="skincare" class="skincare-bot">
+        <div class="texts-section">
+            <h1>Chat with our SkinCare Bot</h1>
+            <p>Get personalized skincare recommendations. Nourish your skin with the perfect routine. Achieve the radiant glow you deserve.</p>
+            <a class="chats-button" href="skincarebot.html">Chat Here</a>
+        </div>
+        <div class="images-section"></div>
+    </div>    
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p>&copy; 2025 Phoenix Aesthetic. All rights reserved.</p>
+        <div class="social-icons">
+            <a href="#"><i class="fab fa-facebook"></i></a>
+            <a href="#"><i class="fab fa-instagram"></i></a>
+            <a href="#"><i class="fab fa-twitter"></i></a>
+        </div>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,1063 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Skincare Assistant</title>
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+    />
+    <style>
+        :root {
+            --sidebar-bg: #d8cbb7;
+            --sidebar-hover: #e6dcc7;
+            --main-bg: #f0e9d6;
+            --chat-bg: #f0e9d6;
+            --user-msg-bg: #e6dcc7;
+            --bot-msg-bg: #f0e9d6;
+            --border-color: rgba(139, 113, 83, 0.2);
+            --text: #8b5e42;
+            --secondary-text: #7d6652;
+            --accent: #8b5e42;
+            --accent-hover: #8e6d52;
+            --radius: 6px;
+            --trans: all 0.2s ease;
+            --shadow: 0 2px 6px rgba(139, 113, 83, 0.2);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+                Oxygen, Ubuntu, Cantarell, sans-serif;
+            background-color: var(--main-bg);
+            height: 100vh;
+            display: flex;
+            color: var(--text);
+            overflow: hidden;
+        }
+
+        /* Sidebar styles */
+        .sidebar {
+            width: 260px;
+            background: var(--sidebar-bg);
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            border-right: 1px solid var(--border-color);
+            z-index: 10;
+            overflow-y: auto;
+        }
+
+        .new-chat-btn {
+            margin: 15px;
+            padding: 12px;
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: var(--text);
+            font-weight: 500;
+            cursor: pointer;
+            transition: var(--trans);
+            text-align: left;
+            background: transparent;
+            width: calc(100% - 30px);
+        }
+
+        .new-chat-btn:hover {
+            background: var(--sidebar-hover);
+        }
+
+        .conversations {
+            flex: 1;
+            padding: 10px 15px;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            overflow-y: auto;
+        }
+
+        .conversation {
+            padding: 10px;
+            border-radius: var(--radius);
+            cursor: pointer;
+            transition: var(--trans);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 14px;
+            color: var(--text);
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            overflow: hidden;
+        }
+
+        .conversation:hover {
+            background: var(--sidebar-hover);
+        }
+
+        .sidebar-footer {
+            padding: 21px;
+            font-size: 14px;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px;
+            border-radius: var(--radius);
+            cursor: pointer;
+            transition: var(--trans);
+        }
+
+        .user-info:hover {
+            background: var(--sidebar-hover);
+        }
+
+        .avatar {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background: var(--accent);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+        }
+
+        /* Main content styles */
+        .main-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .chat-container {
+            flex: 1;
+            overflow-y: auto;
+            padding-bottom: 120px;
+            scroll-behavior: smooth;
+        }
+
+        .welcome-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 0 20px;
+            text-align: center;
+        }
+
+        .welcome-title {
+            font-size: 32px;
+            margin-bottom: 20px;
+            font-weight: 600;
+            color: #5a4636;
+        }
+
+        .welcome-subtitle {
+            font-size: 18px;
+            color: var(--text);
+            margin-bottom: 30px;
+        }
+
+        .examples-container {
+            width: 100%;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-top: 20px;
+        }
+
+        .example-item {
+            padding: 14px;
+            background: var(--user-msg-bg);
+            border-radius: var(--radius);
+            cursor: pointer;
+            transition: var(--trans);
+            text-align: left;
+            border: 1px solid rgba(139, 113, 83, 0.1);
+        }
+
+        .example-item:hover {
+            background: #ded2bc;
+            border-color: rgba(139, 113, 83, 0.3);
+        }
+
+        .example-title {
+            font-weight: 600;
+            margin-bottom: 6px;
+            color: #5a4636;
+        }
+
+        .example-text {
+            font-size: 14px;
+            color: var(--secondary-text);
+        }
+
+        .message-wrapper {
+            padding: 20px 10%;
+        }
+
+        /* Updated message containers for alignment */
+        .message-container {
+            max-width: 800px;
+            margin: 0 auto;
+            display: flex;
+            gap: 20px;
+            position: relative;
+            padding: 10px 0;
+            max-width: 800px;
+            align-items: flex-start;
+        }
+
+        /* Specific styles for user messages - right aligned */
+        .user .message-container {
+            flex-direction: row-reverse;
+            justify-content: flex-start;
+        }
+
+        /* Specific styles for bot messages - left aligned */
+        .bot .message-container {
+            flex-direction: row;
+            justify-content: flex-start;
+        }
+
+        .message-avatar {
+            width: 30px;
+            height: 30px;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            display: flex;
+        }
+
+        .user .message-avatar {
+            background: #c4a378;
+        }
+
+        .bot .message-avatar {
+            background: #c4a378;
+        }
+
+        .message-content {
+            flex: 1;
+            line-height: 1.6;
+        }
+
+        /* Text alignment for messages */
+        .user .message-content {
+            text-align: right;
+        }
+
+        .bot .message-content {
+            text-align: left;
+        }
+
+        .user {
+            background: var(--user-msg-bg);
+        }
+
+        .bot {
+            background: var(--bot-msg-bg);
+        }
+
+        .user-image {
+            max-width: 300px;
+            max-height: 300px;
+            border-radius: 6px;
+            margin-top: 15px;
+            border: 2px solid rgba(139, 113, 83, 0.2);
+        }
+
+        /* Right-align user images */
+        .user .user-image {
+            margin-left: auto;
+        }
+
+        .input-footer {
+            position: fixed;
+            bottom: 0;
+            left: 260px;
+            right: 0;
+            padding: 18px 10%;
+            display: flex;
+            justify-content: center;
+            background: var(--sidebar-hover);
+            border-top: 1px solid var(--border-color);
+        }
+
+        .input-container {
+            position: relative;
+            max-width: 800px;
+            width: 100%;
+        }
+
+        .message-input {
+            width: 100%;
+            padding: 12px 50px 12px 16px;
+            border-radius: var(--radius);
+            border: 1px solid var(--border-color);
+            background: var(--main-bg);
+            color: var(--text);
+            font-size: 16px;
+            line-height: 1.5;
+            resize: none;
+            height: 52px;
+            max-height: 200px;
+            overflow-y: auto;
+            outline: none;
+            transition: var(--trans);
+        }
+
+        .message-input:focus {
+            border-color: var(--accent);
+            box-shadow: 0 0 0 2px rgba(168, 130, 98, 0.2);
+        }
+
+        .send-button {
+            position: absolute;
+            right: 25px;
+            bottom: 15px;
+            background: transparent;
+            border: none;
+            color: var(--text);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 32px;
+            height: 32px;
+            border-radius: 4px;
+            transition: var(--trans);
+        }
+
+        .send-button:hover {
+            background: rgba(139, 113, 83, 0.1);
+            color: var(--text);
+        }
+
+        .image-upload {
+            position: absolute;
+            right: 60px;
+            bottom: 15px;
+            background: transparent;
+            border: none;
+            color: var(--text);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 32px;
+            height: 32px;
+            border-radius: 4px;
+            transition: var(--trans);
+        }
+
+        .image-upload:hover {
+            background: rgba(139, 113, 83, 0.1);
+            color: var(--text);
+        }
+
+        #imageUpload {
+            display: none;
+        }
+
+        .input-info {
+            font-size: 12px;
+            color: var(--secondary-text);
+            text-align: center;
+            margin-top: 10px;
+        }
+
+        .typing-indicator {
+            display: flex;
+            gap: 5px;
+            padding: 10px 0;
+            align-items: center;
+        }
+
+        .typing-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: var(--secondary-text);
+            animation: typingAnimation 1.5s infinite ease-in-out;
+        }
+
+        .typing-dot:nth-child(1) {
+            animation-delay: 0s;
+        }
+
+        .typing-dot:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .typing-dot:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+
+        @keyframes typingAnimation {
+            0%, 60%, 100% {
+                transform: translateY(0);
+                opacity: 0.6;
+            }
+            30% {
+                transform: translateY(-5px);
+                opacity: 1;
+            }
+        }
+
+        /* Fix shop button alignment */
+        .shop-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 15px;
+            padding: 8px 16px;
+            background: #8b5e42;
+            color: white;
+            border-radius: var(--radius);
+            text-decoration: none;
+            font-size: 14px;
+            transition: var(--trans);
+            vertical-align: middle;
+            border: 1px solid rgba(139, 113, 83, 0.3);
+        }
+
+        /* Ensure icon is centered vertically */
+        .shop-button i {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Align shop button to left in bot messages */
+        .bot .shop-button {
+            margin-left: 0; /* Ensures left alignment */
+        }
+
+        .shop-button:hover {
+            background: var(--accent-hover);
+        }
+    </style>
+</head>
+<body>
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <button class="new-chat-btn" onclick="createNewChat()">
+            <i class="fas fa-plus"></i>
+            New chat
+        </button>
+
+        <div class="conversations" id="conversations">
+            <!-- Conversations will be added here -->
+        </div>
+
+        <div class="sidebar-footer">
+            <div class="user-info">
+                <div class="avatar">F</div>
+                <div>Skincare Assistant</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <div class="chat-container" id="chat-container">
+            <div id="welcome-screen" class="welcome-container">
+                <h1 class="welcome-title">Skincare Assistant</h1>
+                <p class="welcome-subtitle">
+                    I'm your personal Skincare AI Assistant. Ask me about skincare
+                    routines, product recommendations, skin concerns, or upload an
+                    image for personalized advice.
+                </p>
+
+                <div class="examples-container">
+                    <div
+                        class="example-item"
+                        onclick="selectSuggestion('Skincare tips for dry skin in winter.')"
+                    >
+                        <div class="example-title">Skincare tips for dry skin</div>
+                        <div class="example-text">Skincare tips for dry skin in winter.</div>
+                    </div>
+                    <div
+                        class="example-item"
+                        onclick="selectSuggestion('How to get rid of acne scars quickly?')"
+                    >
+                        <div class="example-title">Acne Scars</div>
+                        <div class="example-text">How to get rid of acne scars quickly?</div>
+                    </div>
+                    <div
+                        class="example-item"
+                        onclick="selectSuggestion('Best moisturizers for oily skin.')"
+                    >
+                        <div class="example-title">Moisturizers</div>
+                        <div class="example-text">Best moisturizers for oily skin.</div>
+                    </div>
+                    <div
+                        class="example-item"
+                        onclick="selectSuggestion('Tips for clear skin.')"
+                    >
+                        <div class="example-title">Clear Skin</div>
+                        <div class="example-text">Tips for clear skin.</div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="messages">
+                <!-- Messages will appear here -->
+            </div>
+        </div>
+
+        <div id="image-preview-area"></div>
+
+        <div class="input-footer">
+            <div class="input-container">
+                <textarea
+                    id="userInput"
+                    class="message-input"
+                    placeholder="Message Skincare Assistant..."
+                    rows="1"
+                    onkeydown="handleKeyPress(event)"
+                ></textarea>
+
+                <label for="imageUpload" class="image-upload" title="Upload an image">
+                    <i class="fas fa-image"></i>
+                </label>
+                <input
+                    type="file"
+                    id="imageUpload"
+                    accept="image/*"
+                    onchange="handleImageUpload(event)"
+                />
+
+                <button class="send-button" onclick="sendMessage()" title="Send message">
+                    <i class="fas fa-paper-plane"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Global variables
+        let currentImage = null;
+        let sessionId = null;
+        let conversationHistory = [];
+        const API_URL = "http://127.0.0.1:5003";
+        let conversations = {}; // Store multiple conversations keyed by sessionId
+
+        // Initialize on page load
+        window.onload = () => {
+            loadConversationsFromStorage();
+            if (!sessionId) {
+                createNewChat();
+            } else {
+                loadSession(sessionId);
+            }
+            initializeTextarea();
+            updateConversationsSidebar();
+        };
+
+        // Generate unique session ID
+        function generateSessionId() {
+            return (
+                "skincare_" +
+                Date.now() +
+                "_" +
+                Math.random().toString(36).substring(2, 10)
+            );
+        }
+
+        // Load all conversations from localStorage
+        function loadConversationsFromStorage() {
+            const storedConversations = localStorage.getItem("skincareConversations");
+            if (storedConversations) {
+                try {
+                    conversations = JSON.parse(storedConversations);
+                    // Set current sessionId to last active or first key
+                    sessionId = localStorage.getItem("skincareChatSessionId");
+                    if (!sessionId || !conversations[sessionId]) {
+                        sessionId = Object.keys(conversations)[0];
+                        localStorage.setItem("skincareChatSessionId", sessionId);
+                    }
+                } catch (e) {
+                    console.error("Error parsing stored conversations:", e);
+                    conversations = {};
+                    sessionId = null;
+                }
+            }
+        }
+
+        // Save all conversations to localStorage
+        function saveConversationsToStorage() {
+            localStorage.setItem("skincareConversations", JSON.stringify(conversations));
+        }
+
+        // Create a new chat session
+        function createNewChat() {
+            // Prevent creating a new chat if current chat is empty (no messages and no image)
+            if (
+                sessionId &&
+                conversations[sessionId] &&
+                conversations[sessionId].history.length === 0 &&
+                !currentImage
+            ) {
+                // Just load current session, do not create new
+                loadSession(sessionId);
+                return;
+            }
+
+            const newId = generateSessionId();
+            conversations[newId] = {
+                title: "New Chat",
+                history: [],
+            };
+            sessionId = newId;
+            localStorage.setItem("skincareChatSessionId", sessionId);
+            saveConversationsToStorage();
+            conversationHistory = conversations[sessionId].history;
+            renderSavedMessages();
+            updateConversationsSidebar();
+            document.getElementById("welcome-screen").style.display = "flex";
+            document.getElementById("messages").innerHTML = "";
+            initializeSessionOnServer(sessionId);
+        }
+
+        // Delete a chat session
+        function deleteChat(id) {
+            // Check if this is the last chat and if it's empty
+            const keys = Object.keys(conversations);
+            if (keys.length === 1 && conversations[id].history.length === 0) {
+                alert("Cannot delete the last empty chat. Please start a conversation first.");
+                return;
+            }
+
+            if (!confirm("Are you sure you want to delete this chat?")) return;
+            delete conversations[id];
+            // Prevent rename prompt after deletion by not calling updateConversationsSidebar here
+            if (sessionId === id) {
+                // Load another chat or create new if none left
+                const keys = Object.keys(conversations);
+                if (keys.length > 0) {
+                    loadSession(keys[0]);
+                } else {
+                    createNewChat();
+                }
+            } else {
+                saveConversationsToStorage();
+                updateConversationsSidebar();
+            }
+        }
+
+        // Initialize session on server
+        async function initializeSessionOnServer(id) {
+            try {
+                const response = await fetch(`${API_URL}/start_session`, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ session_id: id, history: conversations[id].history }),
+                });
+                if (!response.ok) throw new Error(`Server error: ${response.status}`);
+            } catch (error) {
+                console.error("Error initializing session on server:", error);
+            }
+        }
+
+        // Update sidebar with all conversations
+        function updateConversationsSidebar() {
+            const sidebar = document.getElementById("conversations");
+            sidebar.innerHTML = "";
+            for (const id in conversations) {
+                const convo = conversations[id];
+                const isActive = id === sessionId;
+                const convoDiv = document.createElement("div");
+                convoDiv.className = "conversation";
+                if (isActive) convoDiv.style.backgroundColor = "var(--sidebar-hover)";
+                convoDiv.title = convo.title;
+                convoDiv.onclick = () => loadSession(id);
+
+                // Title span
+                const titleSpan = document.createElement("span");
+                titleSpan.textContent = convo.title;
+                titleSpan.style.flex = "1";
+                titleSpan.style.overflow = "hidden";
+                titleSpan.style.textOverflow = "ellipsis";
+                titleSpan.style.whiteSpace = "nowrap";
+
+                // Rename input (hidden by default)
+                const renameInput = document.createElement("input");
+                renameInput.type = "text";
+                renameInput.value = convo.title;
+                renameInput.style.display = "none";
+                renameInput.style.flex = "1";
+                renameInput.style.fontSize = "14px";
+                renameInput.style.border = "none";
+                renameInput.style.background = "transparent";
+                renameInput.style.color = "var(--text)";
+                renameInput.style.outline = "none";
+
+                renameInput.addEventListener("keydown", (e) => {
+                    if (e.key === "Enter") {
+                        e.preventDefault();
+                        finishRename(id, renameInput.value);
+                    } else if (e.key === "Escape") {
+                        e.preventDefault();
+                        cancelRename();
+                    }
+                });
+
+                renameInput.addEventListener("blur", () => {
+                    cancelRename();
+                });
+
+                // Rename button
+                const renameBtn = document.createElement("button");
+                renameBtn.innerHTML = '<i class="fas fa-edit"></i>';
+                renameBtn.title = "Rename chat";
+                renameBtn.style.background = "transparent";
+                renameBtn.style.border = "none";
+                renameBtn.style.cursor = "pointer";
+                renameBtn.style.color = "var(--text)";
+                renameBtn.style.marginLeft = "5px";
+                renameBtn.onclick = (e) => {
+                    e.stopPropagation();
+                    startRename(convoDiv, titleSpan, renameInput);
+                };
+
+                // Delete button
+                const deleteBtn = document.createElement("button");
+                deleteBtn.innerHTML = '<i class="fas fa-trash-alt"></i>';
+                deleteBtn.title = "Delete chat";
+                deleteBtn.style.background = "transparent";
+                deleteBtn.style.border = "none";
+                deleteBtn.style.cursor = "pointer";
+                deleteBtn.style.color = "var(--text)";
+                deleteBtn.style.marginLeft = "5px";
+                deleteBtn.onclick = (e) => {
+                    e.stopPropagation();
+                    deleteChat(id);
+                };
+
+                convoDiv.appendChild(titleSpan);
+                convoDiv.appendChild(renameInput);
+                convoDiv.appendChild(renameBtn);
+                convoDiv.appendChild(deleteBtn);
+
+                sidebar.appendChild(convoDiv);
+            }
+        }
+
+        // Start renaming a chat
+        function startRename(convoDiv, titleSpan, renameInput) {
+            titleSpan.style.display = "none";
+            renameInput.style.display = "block";
+            renameInput.focus();
+            renameInput.select();
+        }
+
+        // Finish renaming a chat
+        function finishRename(id, newTitle) {
+            if (newTitle.trim() === "") {
+                alert("Chat title cannot be empty.");
+                return;
+            }
+            conversations[id].title = newTitle.trim();
+            saveConversationsToStorage();
+            updateConversationsSidebar();
+        }
+
+        // Cancel renaming
+        function cancelRename() {
+            updateConversationsSidebar();
+        }
+
+        // Load a chat session by id
+        async function loadSession(id) {
+            if (!conversations[id]) return;
+            sessionId = id;
+            localStorage.setItem("skincareChatSessionId", sessionId);
+            conversationHistory = conversations[id].history;
+            renderSavedMessages();
+            updateConversationsSidebar();
+            document.getElementById("welcome-screen").style.display =
+                conversationHistory.length === 0 ? "flex" : "none";
+            document.getElementById("messages").innerHTML = "";
+            conversationHistory.forEach((message) => {
+                // Render messages in UI
+                const isUser = message.role === "user";
+                const messageClass = isUser ? "user" : "bot";
+                const avatarIcon = isUser
+                    ? '<i class="fas fa-user"></i>'
+                    : '<i class="fas fa-tshirt"></i>';
+                let messageContent = message.content;
+                let imageHTML = "";
+                if (message.image) {
+                    imageHTML = `<img src="${message.image}" class="user-image" alt="Uploaded image">`;
+                }
+                const shopButton = !isUser
+                    ? `<a href="index.html" class="shop-button">
+                        <i class="fas fa-shopping-bag"></i> Shop products
+                    </a>`
+                    : "";
+                const messageHTML = `
+                    <div class="message-wrapper ${messageClass}">
+                        <div class="message-container">
+                            <div class="message-avatar">${avatarIcon}</div>
+                            <div class="message-content">
+                                ${messageContent}
+                                ${imageHTML}
+                                ${shopButton}
+                            </div>
+                        </div>
+                    </div>
+                `;
+                document.getElementById("messages").innerHTML += messageHTML;
+            });
+            scrollToBottom();
+            // Initialize session on server if needed
+            await initializeSessionOnServer(id);
+        }
+
+        function renderSavedMessages() {
+            // This function is now integrated in loadSession for multi-chat
+        }
+
+        function initializeTextarea() {
+            const textarea = document.getElementById("userInput");
+
+            textarea.addEventListener("input", function () {
+                this.style.height = "auto";
+                const newHeight = Math.min(this.scrollHeight, 200);
+                this.style.height = newHeight + "px";
+            });
+        }
+
+        // Add selectSuggestion function to handle example clicks
+        function selectSuggestion(text) {
+            const textarea = document.getElementById("userInput");
+            textarea.value = text;
+            textarea.focus();
+            // Optionally send message immediately:
+            // sendMessage();
+        }
+
+        function handleKeyPress(event) {
+            if (event.key === "Enter" && !event.shiftKey) {
+                event.preventDefault();
+                sendMessage();
+            }
+        }
+
+        function handleImageUpload(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            if (!file.type.match("image.*")) {
+                alert("Please select an image file");
+                return;
+            }
+
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                document.getElementById("image-preview-area").innerHTML = `
+                    <div class="image-preview-container">
+                        <img src="${e.target.result}" class="image-preview" alt="Preview" />
+                        <button class="remove-image" onclick="removeImage()">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                `;
+                currentImage = e.target.result;
+            };
+            reader.readAsDataURL(file);
+        }
+
+        function removeImage() {
+            document.getElementById("image-preview-area").innerHTML = "";
+            currentImage = null;
+            document.getElementById("imageUpload").value = "";
+        }
+
+        async function sendMessage() {
+            const textarea = document.getElementById("userInput");
+            const userInput = textarea.value.trim();
+            if (!userInput && !currentImage) return;
+
+            textarea.style.height = "52px";
+            textarea.value = "";
+
+            document.getElementById("welcome-screen").style.display = "none";
+
+            const messagesDiv = document.getElementById("messages");
+
+            const userMessageHTML = `
+                <div class="message-wrapper user">
+                    <div class="message-container">
+                        <div class="message-avatar"><i class="fas fa-user"></i></div>
+                        <div class="message-content">
+                            ${userInput}
+                            ${currentImage ? `<img src="${currentImage}" class="user-image" alt="Uploaded image" />` : ""}
+                        </div>
+                    </div>
+                </div>
+            `;
+            messagesDiv.innerHTML += userMessageHTML;
+
+            const imageToSend = currentImage;
+            if (currentImage) removeImage();
+
+            scrollToBottom();
+
+            const typingHTML = `
+                <div class="message-wrapper bot" id="typing-indicator">
+                    <div class="message-container">
+                        <div class="message-avatar"><i class="fas fa-tshirt"></i></div>
+                        <div class="message-content">
+                            <div class="typing-indicator">
+                                <div class="typing-dot"></div>
+                                <div class="typing-dot"></div>
+                                <div class="typing-dot"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+            messagesDiv.innerHTML += typingHTML;
+            scrollToBottom();
+
+            const userMessage = {
+                role: "user",
+                content: userInput,
+            };
+            if (imageToSend) {
+                userMessage.image = imageToSend;
+            }
+            conversationHistory.push(userMessage);
+            conversations[sessionId].history = conversationHistory;
+            saveConversationsToStorage();
+            updateConversationsSidebar();
+
+            try {
+                const payload = {
+                    message: userInput,
+                    session_id: sessionId,
+                    history: conversationHistory,
+                };
+
+                if (imageToSend) {
+                    payload.hasImage = true;
+                    payload.image = imageToSend;
+                }
+
+                const response = await fetch(`${API_URL}/chat`, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(payload),
+                });
+
+                const typingIndicator = document.getElementById("typing-indicator");
+                if (typingIndicator) {
+                    messagesDiv.removeChild(typingIndicator);
+                }
+
+                if (!response.ok) {
+                    throw new Error(`Server error: ${response.status}`);
+                }
+
+                const result = await response.json();
+
+                conversationHistory.push({
+                    role: "assistant",
+                    content: result.response,
+                });
+
+                if (result.history?.length > 0) {
+                    conversationHistory = result.history;
+                    conversations[sessionId].history = conversationHistory;
+                }
+
+                // Update chat title automatically based on user prompt (briefly)
+                if (userInput.length > 0) {
+                    const newTitle = userInput.length > 30 ? userInput.substring(0, 30) + "..." : userInput;
+                    conversations[sessionId].title = newTitle;
+                    saveConversationsToStorage();
+                    updateConversationsSidebar();
+                }
+
+                saveConversationsToStorage();
+
+                const botMessageHTML = `
+                    <div class="message-wrapper bot">
+                        <div class="message-container">
+                            <div class="message-avatar"><i class="fas fa-tshirt"></i></div>
+                            <div class="message-content">
+                                ${formatBotResponse(result.response)}
+                                <a href="index.html" class="shop-button">
+                                    <i class="fas fa-shopping-bag"></i> Shop products
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                `;
+
+                messagesDiv.innerHTML += botMessageHTML;
+                scrollToBottom();
+            } catch (error) {
+                const typingIndicator = document.getElementById("typing-indicator");
+                if (typingIndicator) {
+                    messagesDiv.removeChild(typingIndicator);
+                }
+
+                const errorHTML = `
+                    <div class="message-wrapper bot">
+                        <div class="message-container">
+                            <div class="message-avatar"><i class="fas fa-tshirt"></i></div>
+                            <div class="message-content">
+                                Sorry, I'm having trouble connecting right now. Please try again later.
+                            </div>
+                        </div>
+                    </div>
+                `;
+                messagesDiv.innerHTML += errorHTML;
+                scrollToBottom();
+            }
+        }
+
+        function scrollToBottom() {
+            const chatContainer = document.getElementById("chat-container");
+            chatContainer.scrollTop = chatContainer.scrollHeight;
+        }
+
+        function formatBotResponse(response) {
+            return response
+                .replace(/\*\*(.*?)\*\*/g, "<b>$1</b>")
+                .replace(/\n/g, "<br>");
+        }
+
+        document.querySelector('.new-chat-btn').addEventListener('click', () => {
+            const userInput = document.querySelector('#user-input').value.trim();
+            if (userInput) {
+                createNewChat();
+            }
+        });
+    </script>
+</body>
+</html>
