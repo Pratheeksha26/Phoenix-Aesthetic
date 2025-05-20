@@ -8,6 +8,7 @@ from dotenv import load_dotenv
 import logging
 import re
 
+
 app = Flask(__name__)
 CORS(app)
 
