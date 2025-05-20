@@ -47,7 +47,7 @@ To set up Phoenix Aesthetics on your local machine:
 * Real-time chatbot learning and mood-based recommendations
 * Integration with more e-commerce platforms for expanded search results
 
-## Contributors
+## 🧑‍🤝‍🧑 Contributors
 - @abhayr10
 
 
