@@ -48,6 +48,7 @@ To set up Phoenix Aesthetics on your local machine:
 * Integration with more e-commerce platforms for expanded search results
 
 ## Contributors
+- @yourusername
 - @abhayr10
 
 
