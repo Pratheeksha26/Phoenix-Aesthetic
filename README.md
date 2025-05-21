@@ -48,8 +48,8 @@ To set up Phoenix Aesthetics on your local machine:
 * Integration with more e-commerce platforms for expanded search results
 
 ## 🧑‍🤝‍🧑 Contributors
-- @abhayr10
-- @Vyshnavi-S
+- abhayr10
+- Vyshnavi-S
 - vanshigatti
 
 
