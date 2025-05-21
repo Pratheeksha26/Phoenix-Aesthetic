@@ -50,5 +50,6 @@ To set up Phoenix Aesthetics on your local machine:
 ## 🧑‍🤝‍🧑 Contributors
 - @abhayr10
 - @Vyshnavi-S
+- vanshigatti
 
 
