@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>About - Phoenix Aesthetics</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body, html {
+      margin: 1rem;
+      padding: 0;
+      height: 100%;
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #fefaf5;
+      color: #2e2e2e;
+    }
+    /* Fullscreen bg image with overlay */
+    .bg-hero {
+      background: 
+        linear-gradient(rgba(254, 250, 245, 0.85), rgba(254, 250, 245, 0.85)),
+        url('2a.jpg') no-repeat center center/cover;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+    }
+
+    /* FAQ toggle styles */
+    .faq-answer {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s ease, padding 0.3s ease;
+    }
+    .faq-answer.open {
+      max-height: 500px;
+      padding-top: 0.5rem;
+      padding-bottom: 0.5rem;
+    }
+
+    /* Scrollbar hidden for faq container */
+    #faq-container::-webkit-scrollbar {
+      display: none;
+    }
+    #faq-container {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Hero / Intro Section -->
+  <section class="bg-hero text-[#6b4f3c] max-w-7xl mx-auto rounded-lg shadow-lg w-full md:h-screen flex flex-col md:flex-row items-center md:items-start md:justify-between">
+    <!-- Text Content -->
+    <div class="max-w-2xl p-6 md:p-16">
+      <h1 class="text-5xl font-bold mb-6 text-[#b4785b]">All About Phoenix Aesthetic</h1>
+      <p class="mb-4 text-lg leading-relaxed">
+        Welcome to Phoenix Aesthetic, your personal guide to style, skincare, and beauty. We believe that self-expression starts with feeling confident in your own skin. That's why we offer personalized recommendations tailored to your unique preferences, skin type, and fashion sense.
+      </p>
+      <p class="mb-4 text-lg leading-relaxed">
+        Our platform combines expert insights with smart technology to curate the perfect clothing, skincare, and cosmetic choices for you. Whether you're looking to refresh your wardrobe, find the ideal skincare routine, or discover makeup that enhances your natural beauty, Phoenix Aesthetic is here to help.
+      </p>
+      <p class="text-lg leading-relaxed">
+        Join us on a journey of self-care and style, where every recommendation is designed to make you feel empowered, radiant, and uniquely you.
+      </p>
+    </div>
+    <!-- Image -->
+    <div class="hidden md:block max-w-xl max-h-[80vh] overflow-hidden rounded-lg shadow-lg">
+      <img
+        src="222.jpg"
+        alt="Elegant fashion and skincare"
+        class="w-full h-full object-cover"
+        loading="lazy"
+      />
+    </div>
+  </section>
+
+  <!-- FAQ Section -->
+  <section id="faq-container" class="max-w-5xl mx-auto px-6 py-16">
+    <h2 class="text-4xl font-semibold mb-10 text-center text-[#b4785b] border-b border-[#b4785b] pb-4 max-w-md mx-auto">
+      Frequently Asked Questions
+    </h2>
+
+    <div class="space-y-6">
+      <!-- FAQ Item -->
+      <div class="faq-item border border-[#e2bba8] rounded-md p-6 cursor-pointer" tabindex="0" role="button" aria-expanded="false" aria-controls="faq1" id="faq1-btn">
+        <div class="flex justify-between items-center">
+          <h3 class="text-2xl font-medium text-[#6b4f3c]">How do I get personalized skincare recommendations?</h3>
+          <svg class="w-7 h-7 text-[#b4785b] transform transition-transform duration-300" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="6 9 12 15 18 9"></polyline>
+          </svg>
+        </div>
+        <p class="faq-answer text-gray-700 mt-3" id="faq1" role="region" aria-labelledby="faq1-btn">
+          Our system uses your input about skin type, preferences, and concerns to analyze and recommend products and routines that best suit you.
+        </p>
+      </div>
+
+      <div class="faq-item border border-[#e2bba8] rounded-md p-6 cursor-pointer" tabindex="0" role="button" aria-expanded="false" aria-controls="faq2" id="faq2-btn">
+        <div class="flex justify-between items-center">
+          <h3 class="text-2xl font-medium text-[#6b4f3c]">Can I shop for fashion and skincare in one place?</h3>
+          <svg class="w-7 h-7 text-[#b4785b] transform transition-transform duration-300" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="6 9 12 15 18 9"></polyline>
+          </svg>
+        </div>
+        <p class="faq-answer text-gray-700 mt-3" id="faq2" role="region" aria-labelledby="faq2-btn">
+          Absolutely! Phoenix Aesthetic combines fashion, skincare, and cosmetics, letting you explore and shop everything in a single seamless experience.
+        </p>
+      </div>
+
+      <div class="faq-item border border-[#e2bba8] rounded-md p-6 cursor-pointer" tabindex="0" role="button" aria-expanded="false" aria-controls="faq3" id="faq3-btn">
+        <div class="flex justify-between items-center">
+          <h3 class="text-2xl font-medium text-[#6b4f3c]">Is my personal data safe?</h3>
+          <svg class="w-7 h-7 text-[#b4785b] transform transition-transform duration-300" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="6 9 12 15 18 9"></polyline>
+          </svg>
+        </div>
+        <p class="faq-answer text-gray-700 mt-3" id="faq3" role="region" aria-labelledby="faq3-btn">
+          We prioritize your privacy and use advanced security measures to ensure your information is encrypted and protected.
+        </p>
+      </div>
+
+      <div class="faq-item border border-[#e2bba8] rounded-md p-6 cursor-pointer" tabindex="0" role="button" aria-expanded="false" aria-controls="faq4" id="faq4-btn">
+        <div class="flex justify-between items-center">
+          <h3 class="text-2xl font-medium text-[#6b4f3c]">How often are your recommendations updated?</h3>
+          <svg class="w-7 h-7 text-[#b4785b] transform transition-transform duration-300" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="6 9 12 15 18 9"></polyline>
+          </svg>
+        </div>
+        <p class="faq-answer text-gray-700 mt-3" id="faq4" role="region" aria-labelledby="faq4-btn">
+          We refresh our recommendations regularly based on new trends, user feedback, and updated product information to keep you ahead.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <script>
+    // FAQ toggle with accessibility
+    document.querySelectorAll('.faq-item').forEach(item => {
+      const btn = item;
+      const answer = item.querySelector('.faq-answer');
+      const svg = item.querySelector('svg');
+
+      function toggleFAQ() {
+        const isOpen = answer.classList.contains('open');
+        if (isOpen) {
+          answer.classList.remove('open');
+          btn.setAttribute('aria-expanded', 'false');
+          svg.style.transform = 'rotate(0deg)';
+        } else {
+          answer.classList.add('open');
+          btn.setAttribute('aria-expanded', 'true');
+          svg.style.transform = 'rotate(180deg)';
+        }
+      }
+
+      btn.addEventListener('click', toggleFAQ);
+      btn.addEventListener('keydown', e => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          toggleFAQ();
+        }
+      });
+    });
+  </script>
+</body>
+</html>
