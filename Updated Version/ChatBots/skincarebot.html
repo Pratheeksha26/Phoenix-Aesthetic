@@ -3,27 +3,28 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Skincare Assistant</title>
+    <title>SkinCare Assistant</title>
     <link
         rel="stylesheet"
         href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
     />
     <style>
         :root {
-            --sidebar-bg: #ebe6db;            /* very light beige */
-            --sidebar-hover: #f5f2ea;         /* soft creamy hover */
-            --main-bg: #faf8f2;               /* almost white warm */
-            --chat-bg: #faf8f2;               /* same as main for consistency */
-            --user-msg-bg: #f0e9d6;           /* soft beige */
-            --bot-msg-bg: #f7f4e9;            /* very light cream */
-            --border-color: rgba(170, 150, 120, 0.15); /* subtle warm border */
-            --text: #7a654f;                  /* gentle medium brown */
-            --secondary-text: #9a8f82;        /* muted taupe */
-            --accent: #a18f7a;                /* soft warm brown */
-            --accent-hover: #b5a993;          /* lighter accent hover */
-            --radius: 6px;
+            --primary-brown: #8b5e42;
+            --light-brown: #c4a378;
+            --cream: #f5f2ea;
+            --dark-brown: #5a4636;
+            --soft-beige: #ebe6db;
+            --text-primary: #4a3429;
+            --text-secondary: #8b7355;
+            --shadow: 0 4px 20px rgba(139, 94, 66, 0.15);
+            --radius: 12px;
             --trans: all 0.2s ease;
-            --shadow: 0 2px 6px rgba(170, 150, 120, 0.15); /* subtle light shadow */
+            --border-color: rgba(139, 94, 66, 0.2);
+            --main-bg: linear-gradient(135deg, var(--cream) 0%, #faf8f2 100%);
+            --chat-bg: transparent;
+            --user-msg-bg: rgba(196, 163, 120, 0.2);
+            --bot-msg-bg: rgba(255, 255, 255, 0.9);
         }
 
         * {
@@ -35,98 +36,124 @@
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
                 Oxygen, Ubuntu, Cantarell, sans-serif;
-            background-color: var(--main-bg);
+            background: var(--main-bg);
             height: 100vh;
             display: flex;
-            color: var(--text);
+            color: var(--text-primary);
             overflow: hidden;
         }
 
         /* Sidebar styles */
         .sidebar {
-            width: 260px;
-            background: var(--sidebar-bg);
+            width: 280px;
+            background: rgba(235, 230, 219, 0.8);
+            backdrop-filter: blur(10px);
+            border-right: 1px solid var(--border-color);
             display: flex;
             flex-direction: column;
             height: 100vh;
-            border-right: 1px solid var(--border-color);
-            z-index: 10;
-            overflow-y: auto;
         }
 
-        .new-chat-btn {
-            margin: 15px;
-            padding: 12px;
-            border: 1px solid var(--border-color);
-            border-radius: var(--radius);
+        .sidebar-header {
+            padding: 24px 20px;
+            border-bottom: 1px solid rgba(139, 94, 66, 0.1);
+        }
+
+        .brand {
             display: flex;
             align-items: center;
             gap: 12px;
-            color: var(--text);
-            font-weight: 500;
-            cursor: pointer;
-            transition: var(--trans);
-            text-align: left;
-            background: transparent;
-            width: calc(100% - 30px);
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--primary-brown);
+            margin-bottom: 16px;
         }
 
-        .new-chat-btn:hover {
-            background: var(--sidebar-hover);
-        }
-
-        .conversations {
-            flex: 1;
-            padding: 10px 15px;
+        .brand-icon {
+            width: 36px;
+            height: 36px;
+            background: var(--primary-brown);
+            border-radius: 8px;
             display: flex;
-            flex-direction: column;
-            gap: 6px;
-            overflow-y: auto;
+            align-items: center;
+            justify-content: center;
+            color: white;
         }
 
-        .conversation {
-            padding: 10px;
+        .new-chat-btn {
+            width: 100%;
+            padding: 12px 16px;
+            background: var(--primary-brown);
+            color: white;
+            border: none;
             border-radius: var(--radius);
+            font-weight: 600;
             cursor: pointer;
             transition: var(--trans);
             display: flex;
             align-items: center;
             gap: 10px;
+        }
+
+        .new-chat-btn:hover {
+            background: var(--dark-brown);
+            transform: translateY(-1px);
+        }
+
+        .conversations {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .conversation {
+            padding: 12px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: var(--trans);
+            display: flex;
+            align-items: center;
+            gap: 12px;
             font-size: 14px;
-            color: var(--text);
+            background: rgba(255, 255, 255, 0.3);
+            color: var(--text-primary);
             text-overflow: ellipsis;
             white-space: nowrap;
             overflow: hidden;
         }
 
         .conversation:hover {
-            background: var(--sidebar-hover);
+            background: rgba(196, 163, 120, 0.2);
+            transform: translateX(4px);
         }
 
         .sidebar-footer {
-            padding: 21px;
-            font-size: 14px;
+            padding: 20px;
         }
 
         .user-info {
             display: flex;
             align-items: center;
-            gap: 10px;
-            padding: 10px;
-            border-radius: var(--radius);
+            gap: 12px;
+            padding: 12px;
+            background: rgba(255, 255, 255, 0.5);
+            border-radius: 8px;
             cursor: pointer;
             transition: var(--trans);
         }
 
         .user-info:hover {
-            background: var(--sidebar-hover);
+            background: rgba(255, 255, 255, 0.7);
         }
 
         .avatar {
-            width: 30px;
-            height: 30px;
+            width: 32px;
+            height: 32px;
             border-radius: 50%;
-            background: var(--accent);
+            background: var(--light-brown);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -144,11 +171,27 @@
             position: relative;
         }
 
+        .chat-header {
+            padding: 20px 0;
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(139, 94, 66, 0.1);
+            text-align: center;
+        }
+
+        .chat-title {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--primary-brown);
+        }
+
         .chat-container {
             flex: 1;
             overflow-y: auto;
+            padding: 20px;
             padding-bottom: 120px;
             scroll-behavior: smooth;
+            background: transparent;
         }
 
         .welcome-container {
@@ -157,130 +200,147 @@
             align-items: center;
             justify-content: center;
             height: 100%;
+            text-align: center;
             max-width: 600px;
             margin: 0 auto;
-            padding: 0 20px;
-            text-align: center;
+        }
+
+        .welcome-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, var(--primary-brown), var(--light-brown));
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 36px;
+            margin-bottom: 24px;
+            box-shadow: var(--shadow);
         }
 
         .welcome-title {
             font-size: 32px;
-            margin-bottom: 20px;
-            font-weight: 600;
-            color: #5a4636;
+            font-weight: 700;
+            margin-bottom: 12px;
+            color: var(--dark-brown);
         }
 
         .welcome-subtitle {
-            font-size: 18px;
-            color: var(--text);
-            margin-bottom: 30px;
+            font-size: 16px;
+            color: var(--text-secondary);
+            margin-bottom: 32px;
+            line-height: 1.5;
         }
 
         .examples-container {
-            width: 100%;
             display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 12px;
-            margin-top: 20px;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+            width: 100%;
+            max-width: 500px;
         }
 
         .example-item {
-            padding: 14px;
-            background: var(--border-color);
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.8);
             border-radius: var(--radius);
             cursor: pointer;
-            transition: var(--trans);
+            transition: all 0.3s ease;
             text-align: left;
-            border: 1px solid rgba(139, 113, 83, 0.1);
+            border: 1px solid rgba(139, 94, 66, 0.1);
+            box-shadow: 0 2px 8px rgba(139, 94, 66, 0.1);
         }
 
         .example-item:hover {
-            background: #ebe6db;
-            border-color: rgba(139, 113, 83, 0.3);
+            transform: translateY(-4px);
+            box-shadow: var(--shadow);
+            background: rgba(255, 255, 255, 0.95);
         }
 
         .example-title {
             font-weight: 600;
-            margin-bottom: 6px;
-            color: #5a4636;
+            margin-bottom: 4px;
+            color: var(--dark-brown);
         }
 
         .example-text {
-            font-size: 14px;
-            color: var(--secondary-text);
+            font-size: 13px;
+            color: var(--text-secondary);
         }
 
         .message-wrapper {
-            padding: 20px 10%;
+            margin-bottom: 24px;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
         }
 
         /* Updated message containers for alignment */
         .message-container {
-            max-width: 800px;
-            margin: 0 auto;
             display: flex;
-            gap: 20px;
-            position: relative;
-            padding: 10px 0;
-            max-width: 800px;
+            gap: 16px;
             align-items: flex-start;
         }
 
         /* Specific styles for user messages - right aligned */
         .user .message-container {
             flex-direction: row-reverse;
-            justify-content: flex-start;
         }
 
         /* Specific styles for bot messages - left aligned */
         .bot .message-container {
             flex-direction: row;
-            justify-content: flex-start;
         }
 
         .message-avatar {
-            width: 30px;
-            height: 30px;
-            border-radius: 4px;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             flex-shrink: 0;
-            display: flex;
+            box-shadow: 0 2px 8px rgba(139, 94, 66, 0.2);
         }
 
         .user .message-avatar {
-            background: #c4a378;
+            background: var(--light-brown);
+            color: white;
         }
 
         .bot .message-avatar {
-            background: #c4a378;
+            background: var(--primary-brown);
+            color: white;
         }
 
         .message-content {
             flex: 1;
+            padding: 16px 20px;
+            border-radius: 18px;
             line-height: 1.6;
+            box-shadow: 0 2px 12px rgba(139, 94, 66, 0.1);
         }
 
         /* Text alignment for messages */
         .user .message-content {
             text-align: right;
+            background: var(--user-msg-bg);
+            border: 1px solid rgba(196, 163, 120, 0.3);
         }
 
         .bot .message-content {
             text-align: left;
-        }
-
-        .user {
             background: var(--bot-msg-bg);
+            border: 1px solid rgba(139, 94, 66, 0.1);
         }
 
         .user-image {
-            max-width: 300px;
-            max-height: 300px;
-            border-radius: 6px;
-            margin-top: 15px;
-            border: 2px solid rgba(139, 113, 83, 0.2);
+            max-width: 280px;
+            max-height: 280px;
+            border-radius: 12px;
+            margin-top: 12px;
+            box-shadow: 0 4px 16px rgba(139, 94, 66, 0.2);
         }
 
         /* Right-align user images */
@@ -291,13 +351,14 @@
         .input-footer {
             position: fixed;
             bottom: 0;
-            left: 260px;
+            left: 280px;
             right: 0;
-            padding: 18px 10%;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-top: 1px solid rgba(139, 94, 66, 0.1);
             display: flex;
             justify-content: center;
-            background: var(--sidebar-hover);
-            border-top: 1px solid var(--border-color);
         }
 
         .input-container {
@@ -308,11 +369,11 @@
 
         .message-input {
             width: 100%;
-            padding: 12px 50px 12px 16px;
-            border-radius: var(--radius);
-            border: 1px solid var(--border-color);
-            background: var(--main-bg);
-            color: var(--text);
+            padding: 16px 100px 16px 20px;
+            border-radius: 25px;
+            border: 2px solid rgba(139, 94, 66, 0.2);
+            background: white;
+            color: var(--text-primary);
             font-size: 16px;
             line-height: 1.5;
             resize: none;
@@ -321,55 +382,41 @@
             overflow-y: auto;
             outline: none;
             transition: var(--trans);
+            box-shadow: 0 4px 16px rgba(139, 94, 66, 0.1);
+            overflow: hidden;
         }
 
         .message-input:focus {
-            border-color: var(--accent);
-            box-shadow: 0 0 0 2px rgba(168, 130, 98, 0.2);
+            border-color: var(--primary-brown);
+            box-shadow: 0 0 0 4px rgba(139, 94, 66, 0.1);
         }
 
-        .send-button {
+        .input-actions {
             position: absolute;
-            right: 25px;
-            bottom: 15px;
-            background: transparent;
+            right: 8px;
+            top: 50%;
+            transform: translateY(-50%);
+            display: flex;
+            gap: 8px;
+        }
+
+        .send-button, .image-upload {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
             border: none;
-            color: var(--text);
+            background: var(--primary-brown);
+            color: white;
             cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
-            width: 32px;
-            height: 32px;
-            border-radius: 4px;
             transition: var(--trans);
         }
 
-        .send-button:hover {
-            background: rgba(139, 113, 83, 0.1);
-            color: var(--text);
-        }
-
-        .image-upload {
-            position: absolute;
-            right: 60px;
-            bottom: 15px;
-            background: transparent;
-            border: none;
-            color: var(--text);
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 32px;
-            height: 32px;
-            border-radius: 4px;
-            transition: var(--trans);
-        }
-
-        .image-upload:hover {
-            background: rgba(139, 113, 83, 0.1);
-            color: var(--text);
+        .send-button:hover, .image-upload:hover {
+            background: var(--dark-brown);
+            transform: scale(1.1);
         }
 
         #imageUpload {
@@ -378,49 +425,32 @@
 
         .input-info {
             font-size: 12px;
-            color: var(--secondary-text);
+            color: var(--text-secondary);
             text-align: center;
             margin-top: 10px;
         }
 
         .typing-indicator {
             display: flex;
-            gap: 5px;
-            padding: 10px 0;
+            gap: 4px;
             align-items: center;
         }
 
         .typing-dot {
-            width: 6px;
-            height: 6px;
+            width: 8px;
+            height: 8px;
             border-radius: 50%;
-            background: var(--secondary-text);
-            animation: typingAnimation 1.5s infinite ease-in-out;
+            background: var(--primary-brown);
+            animation: typing 1.4s infinite ease-in-out;
         }
 
-        .typing-dot:nth-child(1) {
-            animation-delay: 0s;
-        }
+        .typing-dot:nth-child(1) { animation-delay: 0s; }
+        .typing-dot:nth-child(2) { animation-delay: 0.2s; }
+        .typing-dot:nth-child(3) { animation-delay: 0.4s; }
 
-        .typing-dot:nth-child(2) {
-            animation-delay: 0.2s;
-        }
-
-        .typing-dot:nth-child(3) {
-            animation-delay: 0.4s;
-        }
-
-        @keyframes typingAnimation {
-            0%,
-            60%,
-            100% {
-                transform: translateY(0);
-                opacity: 0.6;
-            }
-            30% {
-                transform: translateY(-5px);
-                opacity: 1;
-            }
+        @keyframes typing {
+            0%, 60%, 100% { transform: translateY(0); opacity: 0.4; }
+            30% { transform: translateY(-10px); opacity: 1; }
         }
 
         /* Fix shop button alignment */
@@ -428,16 +458,16 @@
             display: inline-flex;
             align-items: center;
             gap: 8px;
-            margin-top: 15px;
-            padding: 8px 16px;
-            background: #8b5e42;
+            margin-top: 16px;
+            padding: 10px 16px;
+            background: var(--primary-brown);
             color: white;
-            border-radius: var(--radius);
+            border-radius: 8px;
             text-decoration: none;
             font-size: 14px;
+            font-weight: 600;
             transition: var(--trans);
             vertical-align: middle;
-            border: 1px solid rgba(139, 113, 83, 0.3);
         }
 
         /* Ensure icon is centered vertically */
@@ -453,17 +483,77 @@
         }
 
         .shop-button:hover {
-            background: var(--accent-hover);
+            background: var(--dark-brown);
+            transform: translateY(-1px);
+        }
+
+        /* Image preview area */
+        #image-preview-area {
+            display: none;
+            position: absolute;
+            bottom: 80px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 1000;
+        }
+
+        .image-preview-container {
+            position: relative;
+            display: inline-block;
+            background: white;
+            border-radius: var(--radius);
+            padding: 8px;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border-color);
+        }
+
+        .image-preview {
+            max-width: 200px;
+            max-height: 200px;
+            border-radius: 8px;
+            display: block;
+        }
+
+        .remove-image {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: var(--primary-brown);
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-size: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--trans);
+            box-shadow: 0 2px 8px rgba(139, 94, 66, 0.3);
+        }
+
+        .remove-image:hover {
+            background: var(--dark-brown);
+            transform: scale(1.1);
         }
     </style>
 </head>
 <body>
     <!-- Sidebar -->
     <div class="sidebar">
-        <button class="new-chat-btn" onclick="createNewChat()">
-            <i class="fas fa-plus"></i>
-            New chat
-        </button>
+        <div class="sidebar-header">
+            <div class="brand">
+                <div class="brand-icon">
+                    <i class="fas fa-tshirt"></i>
+                </div>
+                SkinCare AI
+            </div>
+            <button class="new-chat-btn" id="newChatBtn" onclick="createNewChat()">
+                <i class="fas fa-plus"></i>
+                New Chat
+            </button>
+        </div>
 
         <div class="conversations" id="conversations">
             <!-- Conversations will be added here -->
@@ -472,16 +562,26 @@
         <div class="sidebar-footer">
             <div class="user-info">
                 <div class="avatar">F</div>
-                <div>Skincare Assistant</div>
+                <div>
+                    <div style="font-weight: 600;">SkinCare Assistant</div>
+                    <div style="font-size: 12px; color: var(--text-secondary);">AI Powered</div>
+                </div>
             </div>
         </div>
     </div>
 
     <!-- Main Content -->
     <div class="main-content">
+        <div class="chat-header">
+            <div class="chat-title">Your Personal SkinCare Advisor</div>
+        </div>
+
         <div class="chat-container" id="chat-container">
             <div id="welcome-screen" class="welcome-container">
-                <h1 class="welcome-title">Skincare Assistant</h1>
+                <div class="welcome-icon">
+                    <i class="fas fa-magic"></i>
+                </div>
+                <h1 class="welcome-title">Welcome to SkinCare AI</h1>
                 <p class="welcome-subtitle">
                     I'm your personal Skincare AI Assistant. Ask me about skincare
                     routines, product recommendations, skin concerns, or upload an
@@ -532,24 +632,26 @@
                 <textarea
                     id="userInput"
                     class="message-input"
-                    placeholder="Message Skincare Assistant..."
+                    placeholder="Ask me anything about skincare..."
                     rows="1"
                     onkeydown="handleKeyPress(event)"
                 ></textarea>
 
-                <label for="imageUpload" class="image-upload" title="Upload an image">
-                    <i class="fas fa-image"></i>
-                </label>
-                <input
-                    type="file"
-                    id="imageUpload"
-                    accept="image/*"
-                    onchange="handleImageUpload(event)"
-                />
+                <div class="input-actions">
+                    <label for="imageUpload" class="image-upload" title="Upload an image">
+                        <i class="fas fa-image"></i>
+                    </label>
+                    <input
+                        type="file"
+                        id="imageUpload"
+                        accept="image/*"
+                        onchange="handleImageUpload(event)"
+                    />
 
-                <button class="send-button" onclick="sendMessage()" title="Send message">
-                    <i class="fas fa-paper-plane"></i>
-                </button>
+                    <button class="send-button" onclick="sendMessage()" title="Send message">
+                        <i class="fas fa-paper-plane"></i>
+                    </button>
+                </div>
             </div>
         </div>
     </div>
@@ -805,7 +907,7 @@
                 const avatarIcon = isUser
                     ? '<i class="fas fa-user"></i>'
                     : '<i class="fas fa-tshirt"></i>';
-                let messageContent = message.content;
+                let messageContent = isUser ? message.content : formatBotResponse(message.content);
                 let imageHTML = "";
                 if (message.image) {
                     imageHTML = `<img src="${message.image}" class="user-image" alt="Uploaded image">`;
